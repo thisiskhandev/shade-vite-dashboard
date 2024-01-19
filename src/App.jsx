@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Faq } from "./components/Faq";
+import Faq from "./components/Faq";
+import Navigation from "./components/Navigation";
 
 export const App = () => {
   const [number, setNumber] = useState(0);
   return (
     <>
+      <Navigation />
       <section>
         <div
           className="flex justify-center align-middle items-center flex-col gap-2 m-auto"

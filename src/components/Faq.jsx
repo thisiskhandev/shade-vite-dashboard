@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-export function Faq() {
+export default function Faq() {
   return (
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="item-1">
