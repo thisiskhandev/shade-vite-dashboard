@@ -97,11 +97,18 @@ export default function NavigationMenuDemo() {
               </NavLink>
             </NavigationMenuItem>
           ) : (
-            <NavigationMenuItem>
-              <NavLink to="/dashboard">
-                <Button variant="ghost">Dashboard</Button>
-              </NavLink>
-            </NavigationMenuItem>
+            <>
+              <NavigationMenuItem>
+                <NavLink to="/dashboard">
+                  <Button variant="ghost">Dashboard</Button>
+                </NavLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavLink to="/add-post">
+                  <Button variant="ghost">Post</Button>
+                </NavLink>
+              </NavigationMenuItem>
+            </>
           )}
         </NavigationMenuList>
 

@@ -1,11 +1,11 @@
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import LoginCover from "@/assets/images/login-cover.svg";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Loader2 } from "lucide-react";
 
@@ -14,6 +14,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 export const Login = () => {
   const [isLoading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const { toast } = useToast();
 
   const formik = useFormik({
@@ -45,14 +46,15 @@ export const Login = () => {
             toast({
               title: "Welcome back " + res.data.user_display_name + " 👋",
             });
+            navigate("/profile");
           }
         })
         .catch((err) => {
           console.log("Error", err);
-          if (err.response.status === 404) {
+          if (err.response.status === 404 || err.response.status === 403) {
             toast({
               variant: "destructive",
-              title: "User Not Found!",
+              title: "Wrong Credentials or User not Found!",
               description: "Please check your credentials again!",
               action: (
                 <ToastAction altText="Error Message">Dismiss</ToastAction>
@@ -64,8 +66,8 @@ export const Login = () => {
     },
   });
 
-  // console.log("Values ", formik.values);
-  // console.log("Errors ", formik.errors);
+  //   console.log("Values ", formik.values);
+  //   console.log("Errors ", formik.errors);
   return (
     <>
       {/* {import.meta.env.VITE_API_ROOT} */}
@@ -87,7 +89,7 @@ export const Login = () => {
                   type="email"
                   placeholder="Email"
                   id="email"
-                  name="username"
+                  name="email"
                   autoComplete="off"
                   value={formik.values.email}
                   onChange={formik.handleChange}
