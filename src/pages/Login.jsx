@@ -11,16 +11,19 @@ import { Loader2 } from "lucide-react";
 
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "@/redux/slice/authSlice";
 
 export const Login = () => {
-  const [isLoading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const authState = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: "joshuaheadofdm@gmail.com",
+      password: "Admin@999",
     },
 
     // Validation Schema
@@ -31,10 +34,11 @@ export const Login = () => {
 
     // Submission
     onSubmit: async (data) => {
-      setLoading(true);
       console.log("Data is: ", data);
-      const { email, password } = data;
-      await axios
+      dispatch(login(data)); // Sending data into store
+      // setLoading(true);
+      // const { email, password } = data;
+      /* await axios
         .post(`${import.meta.env.VITE_API_AUTH}`, {
           username: email,
           password: password,
@@ -61,8 +65,8 @@ export const Login = () => {
               ),
             });
           }
-        });
-      setLoading(false);
+        }); */
+      // setLoading(false);
     },
   });
 
@@ -108,9 +112,9 @@ export const Login = () => {
                 <Button
                   type="submit"
                   className="disabled:bg-slate-800 w-full"
-                  disabled={isLoading}
+                  disabled={authState.isLoading}
                 >
-                  {isLoading && (
+                  {authState.isLoading && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
                   Submit
