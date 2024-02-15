@@ -15,31 +15,45 @@ import useRichTextEditor from "rich-text-editor-for-react/hook";
 import DisplayTheOutput from "rich-text-editor-for-react/display-output";
 
 const AddPost = () => {
+  const auth = JSON.parse(localStorage.getItem("user"));
   const { output, fetchOutput } = useRichTextEditor();
   const [isLoading, setLoading] = useState(false);
   const [isContent, setContent] = useState("");
   const formik = useFormik({
     initialValues: {
       title: "",
-      content: output,
+      content: "",
       status: "publish",
     },
 
     validationSchema: Yup.object({
       title: Yup.string().required().max(300),
-      //   content: Yup.required(),
+      content: Yup.string().required(),
     }),
 
-    onSubmit: (data) => {
+    onSubmit: async (data) => {
+      const { title, content, status } = data;
       setLoading(true);
-      console.log(data);
-      console.log(output);
+      console.log(data, "Data");
+      await axios
+        .post(`${import.meta.env.VITE_API_ROOT}/posts`, data, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.token}`,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       setLoading(false);
     },
   });
 
-  console.log("Formik Values", formik.values);
-  console.log("Formik Errors", formik.errors);
+  //   console.log("Formik Values", formik.values);
+  //   console.log("Formik Errors", formik.errors);
   return (
     <main
       className="container flex flex-col items-center justify-center"
@@ -65,9 +79,10 @@ const AddPost = () => {
                 id="content"
                 name="content"
                 autoComplete="off"
-                value={output}
+                value={formik.values.content}
+                onChange={formik.handleChange}
               />
-              <RichTextEditor
+              {/* <RichTextEditor
                 value={formik.values.content}
                 // onChange={formik.handleChange}
                 toolbarOptions={["word_count", "clear_format", "undo", "redo"]}
@@ -76,8 +91,7 @@ const AddPost = () => {
                   primaryColor: "#20464b",
                 }}
                 fetchOutput={fetchOutput}
-              />
-              <br />
+              /> */}
               <br />
               <Button
                 type="submit"
