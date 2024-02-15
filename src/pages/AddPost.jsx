@@ -63,7 +63,7 @@ const AddPost = () => {
       <section className="py-16 flex items-center justify-center flex-col shadow-xl rounded-lg w-2/3">
         <section className="form_section w-full gap-6">
           <div>
-            <form className="w-full" onSubmit={formik.handleSubmit}>
+            <form className="w-3/4 m-auto" onSubmit={formik.handleSubmit}>
               <Input
                 type="text"
                 placeholder="Post Title"

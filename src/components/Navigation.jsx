@@ -33,7 +33,7 @@ const components = [
 export default function NavigationMenuDemo() {
   const auth = JSON.parse(localStorage.getItem("user"));
   return (
-    <div className="container">
+    <main className="container mt-1">
       <NavigationMenu className="flex justify-between flex-row w-full max-w-full">
         <NavigationMenuList>
           {/* Getting started section */}
@@ -99,7 +99,7 @@ export default function NavigationMenuDemo() {
           ) : (
             <>
               <NavigationMenuItem>
-                <NavLink to="/dashboard">
+                <NavLink to="/admin">
                   <Button variant="ghost">Dashboard</Button>
                 </NavLink>
               </NavigationMenuItem>
@@ -136,7 +136,7 @@ export default function NavigationMenuDemo() {
           </NavigationMenuList>
         )}
       </NavigationMenu>
-    </div>
+    </main>
   );
 }
 
