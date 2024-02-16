@@ -1,7 +1,9 @@
 import { NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useSelector } from "react-redux";
 const Homepage = () => {
-  const auth = JSON.parse(localStorage.getItem("user"));
+  // const auth = JSON.parse(localStorage.getItem("user"));
+  const auth = useSelector((state) => state.auth.user);
   return (
     <>
       <main className="container">
@@ -13,7 +15,7 @@ const Homepage = () => {
             <h1 className="text-4xl font-extrabold mb-6">
               Hello This is Headless work 🐱‍👤
             </h1>
-            {auth ? (
+            {auth.token ? (
               <>
                 <h3 className="text-xl font-semibold mb-3">
                   Hi buddy! 😎{" "}

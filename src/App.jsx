@@ -5,7 +5,7 @@ import "./assets/styles.css";
 import { useSelector } from "react-redux";
 export const App = () => {
   const auth = useSelector((state) => state.auth);
-  console.log(auth);
+  // console.log(auth);
   return (
     <>
       <Navigation auth={auth} />

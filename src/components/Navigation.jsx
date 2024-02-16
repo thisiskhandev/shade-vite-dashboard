@@ -1,6 +1,6 @@
 // Import necessary dependencies
 import React from "react";
-import { NavLink, Navigate } from "react-router-dom";
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 import {
@@ -17,6 +17,8 @@ import { Button } from "./ui/button";
 // Icons
 import { CiLogin } from "react-icons/ci";
 import { FaCircleUser } from "react-icons/fa6";
+import { useDispatch } from "react-redux";
+import { logout } from "@/redux/slice/authSlice";
 
 // Define the components data
 const components = [
@@ -33,6 +35,8 @@ const components = [
 export default function NavigationMenuDemo({ auth }) {
   // const auth = JSON.parse(localStorage.getItem("user"));
   const authUser = auth.user;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   return (
     <main className="container mt-1">
       <NavigationMenu className="flex justify-between flex-row w-full max-w-full">
@@ -124,11 +128,20 @@ export default function NavigationMenuDemo({ auth }) {
               </NavLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Button
+              {/* <Button
                 variant="destructive"
                 onClick={() => {
                   localStorage.removeItem("user");
                   window.location.href = "/login";
+                }}
+              >
+                Logout
+              </Button> */}
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  dispatch(logout());
+                  navigate("/");
                 }}
               >
                 Logout

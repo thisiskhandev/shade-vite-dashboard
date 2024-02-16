@@ -4,7 +4,7 @@ import LoginCover from "@/assets/images/login-cover.svg";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Loader2 } from "lucide-react";
@@ -16,14 +16,14 @@ import { login } from "@/redux/slice/authSlice";
 
 export const Login = () => {
   const dispatch = useDispatch();
-  const authState = useSelector((state) => state.auth);
+  const auth = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: "joshuaheadofdm@gmail.com",
+      password: "Admin@999",
     },
 
     // Validation Schema
@@ -70,6 +70,12 @@ export const Login = () => {
     },
   });
 
+  useEffect(() => {
+    {
+      auth.user.token && navigate("/profile");
+    }
+  });
+
   //   console.log("Values ", formik.values);
   //   console.log("Errors ", formik.errors);
   return (
@@ -112,9 +118,9 @@ export const Login = () => {
                 <Button
                   type="submit"
                   className="disabled:bg-slate-800 w-full"
-                  disabled={authState.isLoading}
+                  disabled={auth.isLoading}
                 >
-                  {authState.isLoading && (
+                  {auth.isLoading && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
                   Submit
