@@ -14,16 +14,28 @@ import RichTextEditor from "rich-text-editor-for-react";
 import useRichTextEditor from "rich-text-editor-for-react/hook";
 import DisplayTheOutput from "rich-text-editor-for-react/display-output";
 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useSelector } from "react-redux";
+
 const AddPost = () => {
-  const auth = JSON.parse(localStorage.getItem("user"));
+  // const auth = JSON.parse(localStorage.getItem("user"));
+  const auth = useSelector((state) => state.auth.user);
   const { output, fetchOutput } = useRichTextEditor();
   const [isLoading, setLoading] = useState(false);
   const [isContent, setContent] = useState("");
+  const [postStatus, sePostStatus] = useState("");
   const formik = useFormik({
     initialValues: {
       title: "",
       content: "",
-      status: "publish",
     },
 
     validationSchema: Yup.object({
@@ -32,11 +44,19 @@ const AddPost = () => {
     }),
 
     onSubmit: async (data) => {
+      // selectEnums.forEach((selectedEnums) => {
+      //   if (postStatus !== selectedEnums) {
+      //     console.log("Did not matched!");
+      //     console.warn("The value is: " + selectEnums);
+      //     return;
+      //   }
+      // });
+      const post = { ...data, status: postStatus };
       const { title, content, status } = data;
       setLoading(true);
       console.log(data, "Data");
       await axios
-        .post(`${import.meta.env.VITE_API_ROOT}/posts`, data, {
+        .post(`${import.meta.env.VITE_API_ROOT}/posts`, post, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${auth.token}`,
@@ -52,8 +72,8 @@ const AddPost = () => {
     },
   });
 
-  //   console.log("Formik Values", formik.values);
-  //   console.log("Formik Errors", formik.errors);
+  // console.log("Formik Values", formik.values);
+  // console.log("Formik Errors", formik.errors);
   return (
     <main
       className="container flex flex-col items-center justify-center"
@@ -93,9 +113,29 @@ const AddPost = () => {
                 fetchOutput={fetchOutput}
               /> */}
               <br />
+              <Select onValueChange={(e) => sePostStatus(e)}>
+                <SelectTrigger className="">
+                  <SelectValue placeholder="Post Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Select Status</SelectLabel>
+                    {selectEnums.map((val, ind) => {
+                      return (
+                        <SelectItem value={val} key={ind}>
+                          {val.charAt(0).toLocaleUpperCase() + val.slice(1)}
+                        </SelectItem>
+                      );
+                    })}
+                    {/* <SelectItem value="draft">Draft</SelectItem>
+                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="private">Private</SelectItem> */}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
               <Button
                 type="submit"
-                className="disabled:bg-slate-800 w-full"
+                className="disabled:bg-slate-800 w-full mt-5"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -120,3 +160,5 @@ export default AddPost;
 const styles = {
   height: "90vh",
 };
+
+const selectEnums = ["publish", "draft", "pending", "private"];
