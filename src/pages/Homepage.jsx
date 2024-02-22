@@ -1,16 +1,14 @@
 import { NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
+import Wrapper from "@/components/Wrapper";
 const Homepage = () => {
   // const auth = JSON.parse(localStorage.getItem("user"));
   const auth = useSelector((state) => state.auth.user);
   return (
     <>
-      <main className="container">
-        <section
-          className="flex justify-center items-center text-center"
-          style={{ height: "90vh" }}
-        >
+      <Wrapper className="container">
+        <section className="text-center">
           <div>
             <h1 className="text-4xl font-extrabold mb-6">
               Hello This is Headless work 🐱‍👤
@@ -41,7 +39,7 @@ const Homepage = () => {
             )}
           </div>
         </section>
-      </main>
+      </Wrapper>
     </>
   );
 };

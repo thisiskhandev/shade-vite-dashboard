@@ -93,6 +93,12 @@ export default function NavigationMenuDemo({ auth }) {
             </NavLink>
           </NavigationMenuItem>
 
+          <NavigationMenuItem>
+            <NavLink to="/blogs">
+              <Button variant="ghost">Blogs</Button>
+            </NavLink>
+          </NavigationMenuItem>
+
           {!authUser.token ? (
             <NavigationMenuItem>
               <NavLink to="/login">

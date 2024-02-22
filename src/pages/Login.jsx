@@ -13,6 +13,7 @@ import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/redux/slice/authSlice";
+import Wrapper from "@/components/Wrapper";
 
 export const Login = () => {
   const dispatch = useDispatch();
@@ -82,10 +83,7 @@ export const Login = () => {
     <>
       {/* {import.meta.env.VITE_API_ROOT} */}
 
-      <main
-        className="container flex flex-col items-center justify-center"
-        style={{ ...styles }}
-      >
+      <Wrapper>
         <h1 className="text-4xl font-bold mb-6">Login Page</h1>
         <section className="py-16 flex items-center justify-center flex-col shadow-xl rounded-lg w-2/3">
           <section className="form_section flex w-full gap-6 items-center justify-center">
@@ -129,11 +127,7 @@ export const Login = () => {
             </div>
           </section>
         </section>
-      </main>
+      </Wrapper>
     </>
   );
-};
-
-const styles = {
-  height: "90vh",
 };

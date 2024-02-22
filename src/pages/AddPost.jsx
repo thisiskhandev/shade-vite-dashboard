@@ -72,8 +72,8 @@ const AddPost = () => {
     },
   });
 
-  // console.log("Formik Values", formik.values);
-  // console.log("Formik Errors", formik.errors);
+  console.log("Formik Values", formik.values);
+  console.log("Formik Errors", formik.errors);
   return (
     <main
       className="container flex flex-col items-center justify-center"
