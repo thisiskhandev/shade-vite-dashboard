@@ -23,8 +23,8 @@ export const Login = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: "joshuaheadofdm@gmail.com",
-      password: "Admin@999",
+      email: "",
+      password: "",
     },
 
     // Validation Schema
