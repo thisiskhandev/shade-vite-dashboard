@@ -3,40 +3,46 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const Blogs = () => {
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+  const [isData, setData] = useState([]);
   useEffect(() => {
-    setLoading(true);
     const fetchData = async () => {
-      await axios
-        .get(
+      try {
+        const res = await axios.get(
           `${
             import.meta.env.VITE_API_ROOT
-          }/posts?_fields[]=id&_fields[]=slug&_fields[]=categories&_fields[]=featured_media&_fields[]=excerpt`,
+          }/posts?_fields[]=id&_fields[]=title&_fields[]=slug&_fields[]=categories&_fields[]=featured_media&_fields[]=excerpt&_fields[]=status`,
           {
             headers: {
               "Content-Type": "application/json",
             },
           }
-        )
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        );
+        // console.log(res.data);
+        if (res.status === 200 && res.statusText === "OK") {
+          setData(res.data);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
-    setLoading(false);
   }, []);
+
   return (
     <>
-      {console.log("Inside Blog component")}
       <main className="container my-40">
         <h1 className="text-4xl text-center font-bold mb-6">Blogs</h1>
         <section>
-          <div className="cards grid grid-cols-4 gap-4">
-            {isLoading ? "Loading..." : <Cards />}
+          <div className="cards grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {isLoading ? (
+              "Loading..."
+            ) : (
+              <Cards data={isData} testData="Hellow testing!" />
+            )}
           </div>
         </section>
       </main>
