@@ -1,4 +1,5 @@
 import Cards from "@/components/Cards";
+import LoadingCard from "@/components/LoadingCard";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -39,7 +40,9 @@ const Blogs = () => {
         <section>
           <div className="cards grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             {isLoading ? (
-              "Loading..."
+              Array(9)
+                .fill()
+                .map((_, ind) => <LoadingCard key={ind} />)
             ) : (
               <Cards data={isData} testData="Hellow testing!" />
             )}
