@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 import axios from "axios";
 
-const PostImage = ({ mediaData, mediaTitle }) => {
+const PostImage = ({ mediaData, mediaTitle, className: customClass }) => {
   const [isLoading, setLoading] = useState(true);
   // console.log("Media hits!", mediaData);
   const [media, setMedia] = useState();
@@ -38,7 +38,11 @@ const PostImage = ({ mediaData, mediaTitle }) => {
               src={items.source_url}
               key={index}
               alt={mediaTitle}
-              className="rounded-sm mb-4 mx-auto w-full h-56 object-cover"
+              className={
+                "rounded-sm mb-4 mx-auto w-full h-56 object-cover" +
+                " " +
+                customClass
+              }
             />
           );
         })

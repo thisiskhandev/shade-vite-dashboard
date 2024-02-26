@@ -33,6 +33,7 @@ const Cards = ({ data }) => {
                     <PostImage
                       mediaData={featured_media}
                       mediaTitle={title.rendered}
+                      className="h-auto"
                     />
                   )}
 

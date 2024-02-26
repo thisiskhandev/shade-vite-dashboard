@@ -2,14 +2,18 @@ import Wrapper from "@/components/Wrapper";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { author } from "@/api/api";
+import { author, categories, tags } from "@/api/api";
 import { Skeleton } from "@/components/ui/skeleton";
+import PostImage from "@/components/posts/PostImage";
+import { NavLink } from "react-router-dom";
 
 const SinglePost = () => {
   const params = useParams();
   const [isLoading, setLoading] = useState(true);
   const [postData, setPostData] = useState(null);
   const [users, setUserData] = useState(null);
+  const [postCats, setPostCats] = useState(null);
+  const [postTags, setPostTags] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
 
   useEffect(() => {
@@ -26,6 +30,7 @@ const SinglePost = () => {
           }
         );
         setPostData(res.data[0]);
+        console.log("Post Data", res.data[0]);
       } catch (error) {
         console.log(error);
       } finally {
@@ -43,9 +48,12 @@ const SinglePost = () => {
       const fetchUserData = async () => {
         try {
           setUserLoading(true);
-          const res = await author(postData.author);
-          setUserData(res.data);
-          console.log(res.data);
+          const resAuthors = await author(postData.author);
+          setUserData(resAuthors.data);
+          const resTags = await tags(postData.tags);
+          setPostTags(resTags.data);
+          const resCats = await categories(postData.categories);
+          setPostCats(resCats.data);
         } catch (error) {
           console.log(error);
         } finally {
@@ -62,11 +70,19 @@ const SinglePost = () => {
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="">
             <div className="overflow-hidden rounded-lg">
-              <img
-                src="https://via.placeholder.com/800x400"
-                alt="Featured Image"
-                className="rounded-t-lg w-full"
-              />
+              {postData.featured_image === 0 ? (
+                <img
+                  src="https://via.placeholder.com/800x400"
+                  alt="Featured Image"
+                  className="rounded-t-lg w-full"
+                />
+              ) : (
+                <PostImage
+                  mediaData={postData.featured_media}
+                  mediaTitle={postData.title.rendered}
+                  className="h-96"
+                />
+              )}
             </div>
             <div className="mt-4 flex justify-between items-center">
               <div className="flex items-center space-x-4 text-gray-600">
@@ -85,17 +101,35 @@ const SinglePost = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <span className="text-gray-600">Tags:</span>
-                <span className="text-blue-500">#Tailwind</span>
-                <span className="text-blue-500">#CSS</span>
-                <span className="text-blue-500">#WebDesign</span>
+                {userLoading ? (
+                  <Skeleton className="w-[140px] h-5" />
+                ) : (
+                  postTags &&
+                  postTags.map((tag, tagInd) => {
+                    return (
+                      <NavLink to={"/blogs/" + tag.slug} key={tagInd}>
+                        <span className="text-blue-500">#{tag.name}</span>
+                      </NavLink>
+                    );
+                  })
+                )}
               </div>
             </div>
             <div className="mt-4 flex justify-between items-center">
               <div className="flex items-center space-x-2">
                 <span className="text-gray-600">Categories:</span>
-                <span className="text-blue-500">#Tailwind</span>
-                <span className="text-blue-500">#CSS</span>
-                <span className="text-blue-500">#WebDesign</span>
+                {userLoading ? (
+                  <Skeleton className="w-[140px] h-5" />
+                ) : (
+                  postCats &&
+                  postCats.map((cat, catInd) => {
+                    return (
+                      <NavLink to={"/blogs/" + cat.slug} key={catInd}>
+                        <span className="text-blue-500">#{cat.name}</span>
+                      </NavLink>
+                    );
+                  })
+                )}
               </div>
             </div>
             <h1 className="text-6xl font-bold mt-4 capitalize">
