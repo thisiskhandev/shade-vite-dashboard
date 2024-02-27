@@ -35,7 +35,7 @@ const PostCats = ({ list }) => {
         <li key={index} className="inline-block my-1">
           <NavLink
             className="capitalize bg-white mr-1 shadow-sm hover:bg-slate-100 px-2 transition-all rounded-full"
-            to={items.slug}
+            to={"/category/" + items.slug}
           >
             {items.name}
           </NavLink>

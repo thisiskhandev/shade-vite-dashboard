@@ -61,3 +61,24 @@ export const categories = async (payload) => {
     console.log(error);
   }
 };
+
+export const getPostByCategories = async (payload) => {
+  try {
+    const res = await axios.get(
+      `${
+        import.meta.env.VITE_API_ROOT
+      }/posts?categories[terms]=22&categories[operator]=AND`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if(res.status === 200) {
+      console.log(res.data);
+      return res;
+    }
+  } catch (error) {
+    console.log(error)
+  }
+};

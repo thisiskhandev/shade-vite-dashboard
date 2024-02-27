@@ -107,8 +107,10 @@ const SinglePost = () => {
                   postTags &&
                   postTags.map((tag, tagInd) => {
                     return (
-                      <NavLink to={"/blogs/" + tag.slug} key={tagInd}>
-                        <span className="text-blue-500">#{tag.name}</span>
+                      <NavLink to={"/tag/" + tag.slug} key={tagInd}>
+                        <span className="text-blue-500 hover:text-blue-600">
+                          #{tag.name}
+                        </span>
                       </NavLink>
                     );
                   })
@@ -124,7 +126,7 @@ const SinglePost = () => {
                   postCats &&
                   postCats.map((cat, catInd) => {
                     return (
-                      <NavLink to={"/blogs/" + cat.slug} key={catInd}>
+                      <NavLink to={"/category/" + cat.slug} key={catInd}>
                         <span className="text-blue-500">#{cat.name}</span>
                       </NavLink>
                     );

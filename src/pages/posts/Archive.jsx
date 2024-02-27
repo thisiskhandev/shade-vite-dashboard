@@ -10,8 +10,13 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useLocation } from "react-router-dom";
 
 const Blogs = () => {
+  const location = useLocation();
+  const { hash, pathname } = location;
+  const lastElementURL = /[^/]*$/.exec(pathname)[0];
+  // console.log(lastElementURL);
   const [isLoading, setLoading] = useState(true);
   const [isData, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,6 +40,7 @@ const Blogs = () => {
           const { data, headers } = res;
           setTotalPages(Number(headers["x-wp-totalpages"]));
           setData(data);
+          console.log(data);
         }
       } catch (err) {
         console.log(err);
@@ -46,6 +52,8 @@ const Blogs = () => {
     fetchData();
   }, [currentPage]);
 
+
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
     window.scroll(0, 0);
@@ -54,7 +62,18 @@ const Blogs = () => {
   return (
     <>
       <main className="container my-40">
-        <h1 className="text-4xl text-center font-bold mb-6">Blogs</h1>
+        <h1
+          className={`text-4xl capitalize font-bold mb-6 ${
+            lastElementURL && lastElementURL === "blogs" ? "text-center" : ""
+          }`}
+        >
+          {pathname.includes("tag")
+            ? `Tag: ${lastElementURL}`
+            : pathname.includes("category")
+            ? `Category: ${lastElementURL}`
+            : "Blogs"}
+        </h1>
+
         <section>
           <div className="cards grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             {isLoading ? (
@@ -82,10 +101,10 @@ const Blogs = () => {
 export default Blogs;
 
 export function PostPagination({ paginate, onPageChange }) {
-  console.log(paginate);
+  // console.log(paginate);
   const { currentPage, totalPages } = paginate;
-  console.log("Current Page", currentPage);
-  console.log("Total Pages", totalPages);
+  // console.log("Current Page", currentPage);
+  // console.log("Total Pages", totalPages);
   return (
     <Pagination>
       <PaginationContent>
