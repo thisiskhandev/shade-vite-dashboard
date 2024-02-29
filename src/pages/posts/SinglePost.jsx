@@ -16,32 +16,48 @@ const SinglePost = () => {
   const [postTags, setPostTags] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const fetchPostData = async () => {
+  //     try {
+  //       const res = await axios.get(
+  //         `${import.meta.env.VITE_API_ROOT}/posts?slug=${
+  //           params.id
+  //         }&_fields=title,date,content,author,featured_media,categories,tags`,
+  //         {
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+  //       setPostData(res.data[0]);
+  //       console.log("Post Data", res.data[0]);
+  //     } catch (error) {
+  //       console.log(error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   if (!postData) {
+  //     fetchPostData();
+  //   }
+  // }, [params.id, postData]);
+
+  useEffect(()=>{
     const fetchPostData = async () => {
       try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_ROOT}/posts?slug=${
-            params.id
-          }&_fields=title,date,content,author,featured_media,categories,tags`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        setPostData(res.data[0]);
-        console.log("Post Data", res.data[0]);
+        setLoading(true);
       } catch (error) {
         console.log(error);
       } finally {
         setLoading(false);
       }
-    };
 
-    if (!postData) {
-      fetchPostData();
+      if(!postData) {
+        fetchPostData();
+      }
     }
-  }, [params.id, postData]);
+  },[params.id, postData]);
 
   useEffect(() => {
     if (postData) {

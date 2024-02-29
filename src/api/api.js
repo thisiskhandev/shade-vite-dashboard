@@ -1,7 +1,24 @@
 import axios from "axios";
 
+export const posts = async (payload) => {
+  try {
+    const res = await axios.get(
+      `${import.meta.env.VITE_API_ROOT}/posts?slug=${
+        payload.id
+      }&_fields=title,date,content,author,featured_media,categories,tags`,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    if (res.status === 200) {
+      return res;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const author = async (payload) => {
-  //   console.log("Users API hit!", payload);
   try {
     const res = await axios.get(
       `${
@@ -74,11 +91,11 @@ export const getPostByCategories = async (payload) => {
         },
       }
     );
-    if(res.status === 200) {
+    if (res.status === 200) {
       console.log(res.data);
       return res;
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
